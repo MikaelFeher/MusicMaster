@@ -11,7 +11,6 @@ class Gallery extends Component {
 			playingUrl: ''
 		}
 	}
-	
 
 	playPreview(previewUrl) {
 		let preview = new Audio(previewUrl);
@@ -19,7 +18,7 @@ class Gallery extends Component {
 		if (!this.state.isPlaying) {
 			preview.play()
 			this.setState({
-				isPlaying: true, 
+				isPlaying: true,
 				playingUrl: previewUrl,
 				preview
 			})
@@ -28,12 +27,12 @@ class Gallery extends Component {
 				this.state.preview.pause();
 				this.setState({
 					isPlaying: false
-				});		
+				});
 			} else {
 				this.state.preview.pause();
 				preview.play()
 				this.setState({
-					isPlaying: true, 
+					isPlaying: true,
 					playingUrl: previewUrl,
 					preview
 				});
@@ -44,26 +43,34 @@ class Gallery extends Component {
 
 
 	render(){
-		console.log('gallery props', this.props);
 		const { tracks } = this.props;
 
 		return(
 			<div>
 				{
 					tracks.map((track, k) => {
-						console.log('track', track);
 						const trackImg = track.album.images[0].url
 						return(
-							<div 
+							<div
 								key={k}
 								className="Track"
 								onClick={() => this.playPreview(track.preview_url)}
 							>
-								<img 
+								<img
 									src={trackImg}
 									className="Track-img"
 									alt="track"
 								/>
+
+								<div className="Track-play">
+									<div className="Track-play-inner">
+										{
+											this.state.playingUrl === track.preview_url
+											? <span>| |</span>
+											: <span>&#9654;</span>
+										}
+									</div>
+								</div>
 								<p className="Track-text">
 									{track.name}
 								</p>

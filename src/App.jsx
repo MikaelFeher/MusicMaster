@@ -17,7 +17,6 @@ class App extends Component {
 	}
 
 	search() {
-		console.log('this.state',this.state);
 		const BASE_URL = 'https://api.spotify.com/v1/search?';
 		let FETCH_URL = `${BASE_URL}q=${this.state.query}&type=artist&limit=1`
 		const ALBUM_URL = 'https://api.spotify.com/v1/artists/'
@@ -28,7 +27,6 @@ class App extends Component {
 		.then(response => response.json())
 		.then(json => {
 			const artist = json.artists.items[0];
-			console.log(artist);
 			this.setState({artist});
 
 			FETCH_URL = `${ALBUM_URL}${artist.id}/top-tracks?country=SE&`
@@ -37,7 +35,6 @@ class App extends Component {
 			})
 			.then(response => response.json())
 			.then(json => {
-				console.log(`Artist's top tracks: `, json);
 				const { tracks } = json;
 				this.setState({tracks});
 			})
@@ -50,7 +47,7 @@ class App extends Component {
 				<div className="App-title">Music Master</div>
 				<FormGroup>
 					<InputGroup>
-						<FormControl 
+						<FormControl
 							type="text"
 							placeholder="Search for an artist..."
 							value={this.state.query}
@@ -61,7 +58,7 @@ class App extends Component {
 								}
 							}}
 						/>
-						<InputGroup.Addon onClick={() => this.search()}> 
+						<InputGroup.Addon onClick={() => this.search()}>
 							<Glyphicon glyph="search"></Glyphicon>
 						</InputGroup.Addon>
 					</InputGroup>
