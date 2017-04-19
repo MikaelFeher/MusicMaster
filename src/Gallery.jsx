@@ -6,7 +6,9 @@ class Gallery extends Component {
 		super();
 
 		this.state = {
-			isPlaying: false
+			isPlaying: false,
+			preview: null,
+			playingUrl: ''
 		}
 	}
 	
@@ -14,12 +16,29 @@ class Gallery extends Component {
 	playPreview(previewUrl) {
 		let preview = new Audio(previewUrl);
 
-		if (this.state.isPlaying) {
-			preview.pause();
-			this.setState({isPlaying: false});		
-		} else {
+		if (!this.state.isPlaying) {
 			preview.play()
-			this.setState({isPlaying: true});
+			this.setState({
+				isPlaying: true, 
+				playingUrl: previewUrl,
+				preview
+			})
+		} else {
+			if(this.state.playingUrl === previewUrl) {
+				this.state.preview.pause();
+				this.setState({
+					isPlaying: false
+				});		
+			} else {
+				this.state.preview.pause();
+				preview.play()
+				this.setState({
+					isPlaying: true, 
+					playingUrl: previewUrl,
+					preview
+				});
+
+			}
 		}
 	}
 
@@ -27,7 +46,6 @@ class Gallery extends Component {
 	render(){
 		console.log('gallery props', this.props);
 		const { tracks } = this.props;
-
 
 		return(
 			<div>
